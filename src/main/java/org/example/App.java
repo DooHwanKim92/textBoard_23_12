@@ -18,37 +18,26 @@ public class App {
         while(true) {
             System.out.print("명령 > ");
             String command = Container.getSc().nextLine().trim();
-            if(command.equals("종료")) {
-                systemController.exit();
-                break;
-            } else if (command.equals("등록")) {
-                wiseSayingController.write();
-            } else if (command.equals("목록")) {
-                wiseSayingController.list();
-            } else if (command.startsWith("삭제")) {
-                // 삭제?id=1
-                String[] commandList = command.split("\\?",2);
-                // 문자열 분할 후 배열로 넣음
-                // ["삭제", "id=1"]
 
-                String actionCode = commandList[0];  // 삭제
-                String[] paramsList = commandList[1].split("&");  // id=1 ....
+            Request request = new Request(command);
+            // 명령에 입력한 문자열이 Request 생성자 함수 매개변수로 들어감
+            // 들어간 단어는 Request 내에서 ?를 기준으로 문자열로 나뉘어 배열에 들어감
+            // 배열의 0번째 인덱스가 actionCode 이며, (종료,등록,목록,삭제...등)
+            // getActionCode() 메서드로 해당 단어를 return한다
 
-                Map<String, String> params = new HashMap<>();
-
-                for(String paramsRow : paramsList) {
-                    String[] paramsStr = paramsRow.split("=",2);
-
-                    String key = paramsStr[0];  // id
-                    String value = paramsStr[1];  //2
-
-                    params.put(key, value);
-                }
-
-                System.out.println("actionCode : " + actionCode);
-                System.out.println("params : "+ params);
-
-                // wiseSayingController.delete();
+            switch (request.getActionCode()) {
+                case "종료":
+                    systemController.exit();
+                    return;
+                case "등록":
+                    wiseSayingController.write();
+                    break;
+                case "목록":
+                    wiseSayingController.list();
+                    break;
+                case "삭제":
+                    wiseSayingController.delete(request);
+                    break;
             }
         }
     }
