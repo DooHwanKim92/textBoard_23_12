@@ -35,14 +35,32 @@ public class WiseSayingController {
         }
     }
     public void delete(Request request) {
-        int id = -1;
-        try {
-            id = Integer.parseInt(request.getParams("id"));
-        } catch (NumberFormatException e) {
-            System.out.println("id는 정수만 이력이 가능합니다.");
+        int id = _getIntParam(request.getParams("id"));
+
+        WiseSaying ws = _getFindById(id);
+        if (ws == null) {
+            System.out.println(id + "번 명언은 존재하지 않습니다.");
             return;
         }
+        wiseSayingList.remove(ws);
 
         System.out.println(id + "번 명언이 삭제되었습니다.");
+    }
+    public int _getIntParam(String id) {
+        int defaultValue = -1;
+        try {
+            return Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            System.out.println("id는 정수만 입력이 가능합니다.");
+            return defaultValue;
+        }
+    }
+    private WiseSaying _getFindById(int id) {
+        for (int i = 0; i < wiseSayingList.size(); i++) {
+            if(wiseSayingList.get(i).getId() == id) {
+                return wiseSayingList.get(i);
+            }
+        }
+        return null;
     }
 }

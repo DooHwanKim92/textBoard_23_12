@@ -18,7 +18,6 @@ public class App {
         while(true) {
             System.out.print("명령 > ");
             String command = Container.getSc().nextLine().trim();
-
             Request request = new Request(command);
             // 명령에 입력한 문자열이 Request 생성자 함수 매개변수로 들어감
             // 들어간 단어는 Request 내에서 ?를 기준으로 문자열로 나뉘어 배열에 들어감
