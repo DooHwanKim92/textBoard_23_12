@@ -37,6 +37,9 @@ public class App {
                 case "삭제":
                     wiseSayingController.delete(request);
                     break;
+                case "수정":
+                    wiseSayingController.modify(request);
+                    break;
             }
         }
     }
